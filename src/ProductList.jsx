@@ -274,6 +274,10 @@ function ProductList() {
         return totalQuantity;
     }
 
+    const existingItem = name => {
+        return cart.find(item => item.name === name);
+    }
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -306,7 +310,13 @@ function ProductList() {
                                         <div className="product-title">{plant.name}</div>
                                         <div className="product-description">{plant.description}</div>
                                         <div className="product-cost">{plant.cost}</div>
-                                        <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        <button 
+                                                className={`product-button${existingItem(plant.name) ? '-disabled' : ''}`}
+                                                onClick={() => handleAddToCart(plant)}
+                                                disabled={existingItem(plant.name)}
+                                        >
+                                            {`${existingItem(plant.name) ? 'Added to Cart' : 'Add to Cart'}`}
+                                        </button>
                                     </div>
                                 ))}
                             </div>
