@@ -4,13 +4,20 @@ import CartItem from './CartItem';
 import { addItem } from './CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-function ProductList() {
+/*
+Component that renders product list view. It takes landingPage function as
+a parameter. This function is called when user clicks 'Paradise Nursery' link,
+which leads to the landing page.
+*/
+function ProductList({landingPage}) {
     
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.items);
     
-    const [showCart, setShowCart] = useState(false); 
-    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    //controls the visibility of shopping cart
+    const [showCart, setShowCart] = useState(false);
+    //controls the visibility of plant array
+    const [showPlants, setShowPlants] = useState(false);
     const [addedToCart, setAddedToCart] = useState({});
 
     const plantsArray = [
@@ -246,8 +253,17 @@ function ProductList() {
     };
     const handlePlantsClick = (e) => {
         e.preventDefault();
-        setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-        setShowCart(false); // Hide the cart when navigating to About Us
+        setShowPlants(true); // Set showPlants to true when "Plants" link is clicked
+        setShowCart(false); // Hide the cart when navigating to Plants
+    };
+
+    const handleParadiseNurseryClick = (e) => {
+        e.preventDefault();
+        setShowPlants(false); // Set showPlants to false when "Paradise Nursery" link is clicked
+        setShowCart(false); // Hide the cart when navigating to "Paradise Nursery"
+        //Hide the ProductList component in the parent component, allowing for
+        //rendering of the landing page.
+        landingPage();
     };
 
     const handleContinueShopping = (e) => {
@@ -284,7 +300,7 @@ function ProductList() {
                 <div className="tag">
                     <div className="luxury">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
-                        <a href="/" style={{textDecoration:'none'}}>
+                        <a href="/e-plantshopping" onClick={(e)=>handleParadiseNurseryClick(e)} style={{textDecoration:'none'}}>
                             <div>
                                 <h3 style={{color:'white'}}>Paradise Nursery</h3>
                                 <i style={{color:'white'}}>Where Green Meets Serenity</i>
